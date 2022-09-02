@@ -13,7 +13,7 @@ function App() {
     return allNewDice
   }
 
-  console.log(alldice())
+  console.log(allDice())
 
   return (
     <main className="app">
