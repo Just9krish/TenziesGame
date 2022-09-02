@@ -1,11 +1,12 @@
 import './App.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dice from './components/Dice'
 import { nanoid } from 'nanoid'
 
 function App() {
 
-  let [dice, setDice] = useState(allNewDice())
+  const [dice, setDice] = useState(allNewDice())
+  const [tenzie, setTenzie] = useState(false)     // this will tell user if he won the game of not
 
   function generateNewDie() {
     return {
@@ -40,6 +41,31 @@ function App() {
     }))
   }
   // console.log(dice)
+
+  useEffect(() => {
+    const allSameValue = function () {
+      for (let i = 0; i < dice.length; i++) {
+        if (dice[i].value !== dice[0].value) {
+          return false;
+        }
+      }
+      return true
+    }
+
+    const allHeld = function () {
+      for (let i = 0; i < dice.length; i++) {
+        if (dice[i].isHeld !== dice[0].isHeld) {
+          return false;
+        }
+      }
+      return true
+    }
+
+    if (allSameValue() && allHeld()) console.log('Won');
+
+
+  }, [dice]);
+
 
   const DiceElements = dice.map(die => {
     return <Dice
