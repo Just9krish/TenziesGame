@@ -6,7 +6,12 @@ export default function Dice(props) {
     }
 
     return (
-        <div className="dice" style={backGroundColor} >
+        <div
+            className="dice"
+            style={backGroundColor}
+            // onClick={(event) => props.holdDice(event, props.id)}
+            onClick={props.holdDice}
+        >
             <p>{props.value}</p>
         </div>
     )

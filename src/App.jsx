@@ -13,7 +13,7 @@ function App() {
     for (let i = 0; i < 10; i++) {
       newDice.push({
         value: Math.ceil(Math.random() * 6),
-        isHeld: true,
+        isHeld: false,
         id: nanoid()
       })
     }
@@ -22,11 +22,30 @@ function App() {
   }
 
   function reRoll() {
-    setDice(allNewDice())
+    setDice(oldDice => oldDice.map(die => {
+      return die.isHeld === true ?
+        allNewDice :
+        die
+    }))
   }
 
+  function holdDice(diceId) {
+    setDice(oldDice => oldDice.map(die => {
+      return diceId === die.id ?
+        { ...die, isHeld: !die.isHeld } :
+        die
+    }))
+  }
+  // console.log(dice)
+
   const DiceElements = dice.map(die => {
-    return <Dice value={die.value} key={die.id} isHeld={die.isHeld}/>
+    return <Dice
+      value={die.value}
+      key={die.id}
+      // id={die.id} then holdDice={holdDice} would do thing
+      isHeld={die.isHeld}
+      holdDice={() => holdDice(die.id)}   // this is another way of passing parameter to function
+    />
   })
 
 
