@@ -2,6 +2,19 @@ import './App.css'
 import Dice from './components/Dice'
 
 function App() {
+
+  function allDice() {
+    const allNewDice = [];
+
+    for (let i = 0; i < 10; i++) {
+      allNewDice.push(Math.ceil(Math.random() * 6))
+    }
+
+    return allNewDice
+  }
+
+  console.log(alldice())
+
   return (
     <main className="app">
       <div className='header'>
