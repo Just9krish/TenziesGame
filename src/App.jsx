@@ -10,18 +10,21 @@ function App() {
     const newDice = [];
 
     for (let i = 0; i < 10; i++) {
-      newDice.push(Math.ceil(Math.random() * 6))
+      newDice.push({
+        value: Math.ceil(Math.random() * 6),
+        isHeld: false
+      })
     }
 
     return newDice
   }
 
   function reRoll() {
-    setDice( allNewDice())
+    setDice(allNewDice())
   }
 
   const DiceElements = dice.map(die => {
-    return <Dice value={die} />
+    return <Dice value={die.value} />
   })
 
 
