@@ -63,23 +63,23 @@ function App() {
 
   useEffect(() => {
 
-    // const allSameValue = () => {
-    //   for (let i = 0; i < dice.length; i++) {
-    //     if (dice[i].value !== dice[0].value) {
-    //       return false;
-    //     }
-    //   }
-    //   return true
-    // }
+    const allSameValue = () => {
+      for (let i = 0; i < dice.length; i++) {
+        if (dice[i].value !== dice[0].value) {
+          return false;
+        }
+      }
+      return true
+    }
 
-    // const allHeld = () => {
-    //   for (let i = 0; i < dice.length; i++) {
-    //     if (dice[i].isHeld !== dice[0].isHeld) {
-    //       return false;
-    //     }
-    //   }
-    //   return true;
-    // }
+    const allHeld = () => {
+      for (let i = 0; i < dice.length; i++) {
+        if (dice[i].isHeld !== dice[0].isHeld) {
+          return false;
+        }
+      }
+      return true;
+    }
 
     // if (allSameValue() && allHeld()) console.log('Won');
 
@@ -88,11 +88,12 @@ function App() {
     // if function call on each item return true
     // and return fasle if one element return false
 
-    const firstValue = dice[0].value
-    const allSameValue = dice.every(die => die.value === firstValue)
-    const allHeld = dice.every(die => die.isHeld)
+    // const firstValue = dice[0].value
+    // const allSameValue = dice.every(die => die.value === firstValue)
+    // const allHeld = dice.every(die => die.isHeld)
 
-    if (allSameValue && allHeld) {
+    // console.log(allSameValue())
+    if (allSameValue() && allHeld()) {
       setTenzie(true)
     }
 
