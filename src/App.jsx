@@ -7,7 +7,8 @@ import Confetti from 'react-confetti'
 function App() {
 
   const [dice, setDice] = useState(allNewDice())
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(0)
+  const [low, setLow] = useState(0)
   const [tenzie, setTenzie] = useState(false)     // this will tell user if he won the game of not
 
   function generateNewDie() {
@@ -28,32 +29,38 @@ function App() {
   }
 
 
-  function reRoll() {
-
-    tenzie ? setDice(allNewDice()) :
-      setDice(oldDice => oldDice.map(die => {
-        return die.isHeld === true ?
-          die :
-          generateNewDie()
-      }))
-
-    setCount(count + 1)
-
-    if (tenzie === true) setTenzie(false)
-  }
-
   // function reRoll() {
-  //   if (!tenzie) {
+
+  //   tenzie ? setDice(allNewDice()) :
   //     setDice(oldDice => oldDice.map(die => {
-  //       return die.isHeld ?
+  //       return die.isHeld === true ?
   //         die :
   //         generateNewDie()
   //     }))
-  //   } else {
-  //     setTenzie(false)
-  //     setDice(allNewDice())
-  //   }
+
+  //   setCount(count + 1)
+
+  //   if (tenzie === true) setTenzie(false)
   // }
+ 
+ 
+
+  function reRoll() {
+    if (!tenzie) {
+      setDice(oldDice => oldDice.map(die => {
+        return die.isHeld ?
+          die :
+          generateNewDie()
+      }))
+      setCount(count + 1)
+      setLow(low + 1)
+    } else {
+      setTenzie(false)
+      setDice(allNewDice())
+      setCount(1)
+    }
+  }
+  console.log(count)
 
   function holdDice(diceId) {
     setDice(oldDice => oldDice.map(die => {
@@ -98,9 +105,24 @@ function App() {
     // console.log(allSameValue())
     if (allSameValue() && allHeld()) {
       setTenzie(true)
+      const lowestValue = finalValue
+      if(lowestValue < rollValue){
+        setLow(lowestValue)
+      }
     }
 
+    const finalValue =  localStorage.setItem('lowest', low)
+    const rollValue = localStorage.setItem('lowestRoll', count)
+
+
+    // console.log('dllsl')
+
+
+    // if (localStorage.getItem('lowestRoll') <= 1)
+    //   localStorage.setItem('lowestRoll', 100)
   }, [dice]);
+
+  const minimumRoll = localStorage.getItem('lowestRoll')
 
 
   const DiceElements = dice.map(die => {
@@ -135,6 +157,7 @@ function App() {
           <div className='winning--text'>
             <h1>You Won!</h1>
             <p>You roll a die {count} times to win the game.</p>
+            <p>All time lowest roll is {minimumRoll}.</p>
           </div>
           <button className='btn' onClick={reRoll}>New Game</button>
         </div>
