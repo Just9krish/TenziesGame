@@ -7,6 +7,7 @@ import Confetti from 'react-confetti'
 function App() {
 
   const [dice, setDice] = useState(allNewDice())
+  const [count, setCount] = useState(1)
   const [tenzie, setTenzie] = useState(false)     // this will tell user if he won the game of not
 
   function generateNewDie() {
@@ -35,6 +36,8 @@ function App() {
           die :
           generateNewDie()
       }))
+
+    setCount(count + 1)
 
     if (tenzie === true) setTenzie(false)
   }
@@ -112,16 +115,30 @@ function App() {
 
 
   return (
-    <main className="app">
-      {tenzie && <Confetti />}
-      <div className='header'>
-        <h1>Tenzies</h1>
-        <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
-      </div>
-      <div className='dice--container'>
-        {DiceElements}
-      </div>
-      <button onClick={reRoll} className='btn'>{tenzie ? "New Game" : "Roll"}</button>
+    <main className="">
+      {tenzie === false ?
+        <div className="app">
+
+          <div className='header'>
+            <h1>Tenzies</h1>
+            <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+          </div>
+          <div className='dice--container'>
+            {DiceElements}
+          </div>
+          <button onClick={reRoll} className='btn'>Roll</button>
+        </div> :
+
+        <div className='app'>
+          {tenzie && <Confetti />}
+          <img src="https://i.postimg.cc/kXWYt7Rv/people-jumping.jpg" alt="" />
+          <div className='winning--text'>
+            <h1>You Won!</h1>
+            <p>You roll a die {count} times to win the game.</p>
+          </div>
+          <button className='btn' onClick={reRoll}>New Game</button>
+        </div>
+      }
     </main>
   )
 }
