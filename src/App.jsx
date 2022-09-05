@@ -8,8 +8,8 @@ function App() {
 
   const [dice, setDice] = useState(allNewDice())
   const [count, setCount] = useState(1)
-  const [low, setLow] = useState(1)
-  const [temp, setTemp] = useState(true)
+  const [low, setLow] = useState(localStorage.getItem('lowest') ? parseInt(localStorage.getItem('lowest')) : 1)
+  const [temp, setTemp] = useState(localStorage.getItem('lowest') ? false : true)
   const [tenzie, setTenzie] = useState(false)     // this will tell user if he won the game of not
 
   function generateNewDie() {
@@ -98,33 +98,26 @@ function App() {
     // const allSameValue = dice.every(die => die.value === firstValue)
     // const allHeld = dice.every(die => die.isHeld)
 
-    // console.log(allSameValue())
     localStorage.setItem('lowest', low)
     localStorage.setItem('lowestRoll', count)
 
-    const lowValue = localStorage.getItem('lowest')
-    const rollValue = localStorage.getItem('lowestRoll')
+    const lowValue = parseInt(localStorage.getItem('lowest'))
+    const rollCount = parseInt(localStorage.getItem('lowestRoll'))
 
     if (allSameValue() && allHeld()) {
       setTenzie(true)
       if (temp) {
-        setLow(rollValue)
+        setLow(rollCount)
         setTemp(false)
       }
-      if (lowValue >= rollValue) {
-        setLow(rollValue)
+      if (lowValue >= rollCount) {
+        setLow(rollCount)
       }
     }
 
-    // console.log('dllsl')
-
-
-    // if (localStorage.getItem('lowestRoll') <= 1)
-    //   localStorage.setItem('lowestRoll', 100)
   }, [dice]);
 
   const minimumRoll = localStorage.getItem('lowest')
-
 
   const DiceElements = dice.map(die => {
     return <Dice
@@ -139,29 +132,29 @@ function App() {
   return (
     <main>
       {
-      tenzie === false ?
+        tenzie === false ?
 
-        <div className="app">
-          <div className='header'>
-            <h1>Tenzies</h1>
-            <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
-          </div>
-          <div className='dice--container'>
-            {DiceElements}
-          </div>
-          <button onClick={reRoll} className='btn'>Roll</button>
-        </div> :
+          <div className="app">
+            <div className='header'>
+              <h1>Tenzies</h1>
+              <p>Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+            </div>
+            <div className='dice--container'>
+              {DiceElements}
+            </div>
+            <button onClick={reRoll} className='btn'>Roll</button>
+          </div> :
 
-        <div className='app'>
-          {tenzie && <Confetti />}
-          <img src="https://i.postimg.cc/kXWYt7Rv/people-jumping.jpg" alt="" />
-          <div className='winning--text'>
-            <h1>You Won!</h1>
-            <p>You roll a die {count} times to win the game.</p>
-            <p>All time lowest roll is {(count < minimumRoll || minimumRoll == 1) ? count : minimumRoll}.</p>
+          <div className='app'>
+            {tenzie && <Confetti />}
+            <img src="https://i.postimg.cc/kXWYt7Rv/people-jumping.jpg" alt="" />
+            <div className='winning--text'>
+              <h1>You Won!</h1>
+              <p>You roll a die {count} times to win the game.</p>
+              <p>All time lowest roll is {(count < minimumRoll || minimumRoll == 1) ? count : minimumRoll}.</p>
+            </div>
+            <button className='btn' onClick={reRoll}>New Game</button>
           </div>
-          <button className='btn' onClick={reRoll}>New Game</button>
-        </div>
       }
     </main>
   )
