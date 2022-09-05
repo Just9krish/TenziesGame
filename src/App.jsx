@@ -151,7 +151,7 @@ function App() {
             <div className='winning--text'>
               <h1>You Won!</h1>
               <p>You roll a die {count} times to win the game.</p>
-              <p>All time lowest roll is {(count < minimumRoll || minimumRoll == 1) ? count : minimumRoll}.</p>
+              <p className="lowesRoll">All time lowest roll is {(count < minimumRoll || minimumRoll == 1) ? count : minimumRoll}.</p>
             </div>
             <button className='btn' onClick={reRoll}>New Game</button>
           </div>
